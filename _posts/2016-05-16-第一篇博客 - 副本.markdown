@@ -5,5 +5,5 @@ date:   2016-05-16
 categories: Daily
 tags: davebog Daily
 ---
-test  
+test 经测试，两个空格+一个回车=换行  
 --待续
