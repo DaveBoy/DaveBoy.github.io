@@ -1,0 +1,9 @@
+---
+layout: post
+title:  "新的大门!"
+date:   2016-05-16
+categories: Daily
+tags: davebog Daily
+---
+花了很久时间才弄到一个适合的模板，改改停停，总算弄好了，万事开头难，一切都会好起来的
+--待续
