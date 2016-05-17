@@ -12,11 +12,7 @@ BEGIN
 
 	#Routine body goes here...  
 	
-	#不匹配  
 	
-	IF(NOT (old REGEXP  concat(".*[^0-9]",deleted,"[^0-9].*"))) THEN  
-	
-		SET @str=old;  
 		
 	#deleted前有,后有  
 	
@@ -40,8 +36,13 @@ BEGIN
 	
 	ELSEIF( old REGEXP  concat('^',deleted,'$')) THEN   
 	
-		SET @str=(REPLACE(old,deleted,''));		  
+		SET @str=(REPLACE(old,deleted,''));	  
 		
+	#不匹配  
+	
+	ELSE  
+	
+		SET @str=old;  	
 	END IF;  
 	
 	RETURN @str;  
