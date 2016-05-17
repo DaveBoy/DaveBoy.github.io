@@ -6,27 +6,48 @@ categories: Daily
 tags: davebog Daily
 ---
 今天遇到一些需求，需要将多个id，存到一个字段里面，用逗号分割，但是这在后期的删除某一个id上就稍微麻烦点，所以想到做一个函数，之后直接调用岂不是很方便，下面贴上代码   
-CREATE DEFINER=`root`@`localhost` FUNCTION `deleted`(`old` varchar(255),`deleted` varchar(255)) RETURNS varchar(255) CHARSET utf8
-BEGIN
-	#Routine body goes here...
-	#不匹配
-	IF(NOT (old REGEXP  concat(".*[^0-9]",deleted,"[^0-9].*"))) THEN 
-		SET @str=old;
-	#deleted前有,后有
-	ELSEIF( old REGEXP  concat(',',deleted,',')) THEN 
-		set @str=(REPLACE(old,concat(deleted,','),''));
-	#deleted前有,后无
-	ELSEIF( old REGEXP  concat(',',deleted,'$'))THEN
-		SET @str=(REPLACE(old,concat(',',deleted),''));
-	#deleted前无,后有
-	ELSEIF( old REGEXP  concat('^',deleted,',')) THEN 
-		SET @str=(REPLACE(old,concat(deleted,','),''));
-	#deleted前无,后无
-	ELSEIF( old REGEXP  concat('^',deleted,'$')) THEN 
-		SET @str=(REPLACE(old,deleted,''));		
-	END IF;
-	RETURN @str;
-END   
+CREATE DEFINER=`root`@`localhost` FUNCTION `deleted`(`old` varchar(255),`deleted` varchar(255)) RETURNS varchar(255) CHARSET utf8  
+
+BEGIN  
+
+	#Routine body goes here...  
+	
+	#不匹配  
+	
+	IF(NOT (old REGEXP  concat(".*[^0-9]",deleted,"[^0-9].*"))) THEN  
+	
+		SET @str=old;  
+		
+	#deleted前有,后有  
+	
+	ELSEIF( old REGEXP  concat(',',deleted,',')) THEN  
+	
+		set @str=(REPLACE(old,concat(deleted,','),''));  
+		
+	#deleted前有,后无  
+	
+	ELSEIF( old REGEXP  concat(',',deleted,'$'))THEN  
+	
+		SET @str=(REPLACE(old,concat(',',deleted),''));  
+		
+	#deleted前无,后有  
+	
+	ELSEIF( old REGEXP  concat('^',deleted,',')) THEN   
+	
+		SET @str=(REPLACE(old,concat(deleted,','),''));  
+		
+	#deleted前无,后无  
+	
+	ELSEIF( old REGEXP  concat('^',deleted,'$')) THEN   
+	
+		SET @str=(REPLACE(old,deleted,''));		  
+		
+	END IF;  
+	
+	RETURN @str;  
+	
+END     
+
 注：old即原字符串，deleted为要从原字符串中删除的字符串  
 测试：SELECT deleted('1,254356,3,4,5','254356')  
 结果：1,3,4,5
